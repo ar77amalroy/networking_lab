@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-
 struct frame
 { int info;
   int seq; 
@@ -12,7 +11,6 @@ struct frame p;
 char turn='s'; //Initialize first turn as sender
 int errorframe=1; //no Error
 int errorack=1;
-
 void sender();
 void receiver();
 void main()
@@ -33,7 +31,6 @@ void sender()
   	   	 errorframe=rand()%4; //randomly pick Error frame as 4
   	   	printf("%s\n",(errorframe==0?"Error While sending Packet":""));
      	  	turn='r';
-	
    		}
   	 	else
   		 {  
@@ -49,7 +46,6 @@ printf("%s\n",(errorframe==0?"Error While sending Packet":""));
       		 turn='r'; 
 //Set next turn as Receiver for transmission 
 		flag=1;
-      
    	 	} 
 	}
 	else
@@ -61,8 +57,6 @@ printf("%s\n",(errorframe==0?"Error While sending Packet":""));
   		  t=5;
   		  }
 }
-
- 
 }
 void receiver()
 {   static int frexp=1;
