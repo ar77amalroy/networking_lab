@@ -26,3 +26,32 @@ int main() {
     close(client_socket);
     return 0;
 }
+######################################################
+#include <stdio.h>
+#include <string.h>
+#include <unistd.h>
+#include <arpa/inet.h>
+#define PORT 12345
+int main()
+{
+    int s;
+    char b[1024];
+    struct sockaddr_in addr;
+    s = socket(AF_INET, SOCK_STREAM, 0);
+    addr.sin_family = AF_INET;
+    addr.sin_port = htons(PORT);
+    inet_pton(AF_INET, "127.0.0.1", &addr.sin_addr);
+    connect(s, (struct sockaddr*)&addr, sizeof(addr));
+    while(1){
+        printf("Enter string: ");
+        fgets(b, sizeof(b), stdin);
+        send(s, b, strlen(b), 0);
+        if(strcmp(b, "exit\n") == 0)
+            break;
+        memset(b, 0, sizeof(b));
+        recv(s, b, sizeof(b), 0);
+        printf("Reversed string: %s\n", b);
+    }
+    close(s);
+    return 0;
+}
