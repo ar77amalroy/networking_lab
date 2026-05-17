@@ -16,3 +16,27 @@ int main() {
     printf("Client says: %s\n", buffer);
     return 0;
 }
+#####################################################
+#include <stdio.h>
+#include <string.h>
+#include <sys/socket.h>
+#include <arpa/inet.h>
+int main(){
+    int s, n;
+    char b[1024];
+    struct sockaddr_in server = {AF_INET, htons(8080), INADDR_ANY};
+    struct sockaddr_in client;
+    socklen_t len = sizeof(client);
+    s = socket(AF_INET, SOCK_DGRAM, 0);
+    bind(s, (struct sockaddr*)&server, sizeof(server));
+    printf("Server listening...\n");
+    while(1){
+        n = recvfrom(s, b, sizeof(b), 0,
+                    (struct sockaddr*)&client, &len);
+        b[n] = '\0';
+        if(strcmp(b, "exit\n") == 0)
+            break;
+        printf("Client says: %s\n", b);
+    }
+    return 0;
+}
