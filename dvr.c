@@ -29,7 +29,7 @@ int main() {
     for(i = 0; i < n; i++) {
         printf("\nRouter %d:\n", i + 1);
         for(j = 0; j < n; j++) {
-            printf("To %d via %d dist %d\n",
+            printf("To %d via %d dist: %d\n",
                    j + 1, next[i][j] + 1, dist[i][j]);
         }
     }
