@@ -23,3 +23,29 @@ int main() {
     }
     return 0;
 }
+########################################################################################
+#include<stdio.h>
+int main(){
+    int in, out, bs, n, store = 0;
+    printf("Enter bucket size, outgoing rate and no of inputs: ");
+    scanf("%d%d%d", &bs, &out, &n);
+    while(n--){
+        printf("Enter incoming packet size: ");
+        scanf("%d", &in);
+        printf("Incoming packet size: %d\n", in);
+        if(in <= bs - store)
+            store += in;
+        else
+        {
+            printf("Dropped packets: %d\n",in - (bs - store));
+            store = bs;
+        }
+        printf("Bucket: %d/%d\n", store, bs);
+        if(store >= out)
+            store -= out;
+        else
+            store = 0;
+        printf("After outgoing: %d packets left\n\n", store);
+    }
+    return 0;
+}
