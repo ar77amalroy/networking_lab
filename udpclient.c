@@ -12,3 +12,22 @@ int main() {
     sendto(sock, message, strlen(message), 0, (struct sockaddr*)&server, sizeof(server));
     return 0;
 }
+#############################################
+#include <stdio.h>
+#include <string.h>
+#include <sys/socket.h>
+#include <arpa/inet.h>
+int main(){
+    int s = socket(AF_INET, SOCK_DGRAM, 0);
+    struct sockaddr_in server ={AF_INET, htons(8080), inet_addr("127.0.0.1")};
+    char b[1024];
+    while(1){
+        printf("Enter message to send: ");
+        fgets(b, 1024, stdin);
+        sendto(s, b, strlen(b), 0,
+              (struct sockaddr*)&server, sizeof(server));
+        if(strcmp(b, "exit\n") == 0)
+            break;
+    }
+    return 0;
+}
