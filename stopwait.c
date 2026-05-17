@@ -91,3 +91,54 @@ void receiver()
          }
 }
 }
+#########################################################################
+#include<stdio.h>
+#include<stdlib.h>
+struct { int info, seq; } p;
+int ak, t=5, k, dis=0, ef=1, ea=1;
+char turn='s';
+void sender() {
+    static int f=0;
+    if(turn=='s') {
+        if(!ea) {
+            printf("SENDER: sent packet %d\n", p.seq);
+            ef=rand()%4;
+            if(!ef) printf("Error While sending Packet\n");
+        } else {
+            if(f) printf("SENDER: ACK received for %d\n", ak);
+            if(p.seq==5) { 
+                dis=1; 
+                return; 
+            }
+            printf("SENDER: sent packet %d\n", ++p.seq);
+            p.info++;
+            ef=rand()%4;
+            if(!ef) printf("Error While sending Packet\n");
+            f=1;
+        }
+        turn='r';
+    } else {
+        printf("SENDER time reducing\n");
+        if(--t==0) { 
+            turn='s'; ea=0; t=5; 
+        }}}
+void receiver() {
+    static int exp=1;
+    if(turn=='r' && ef) {
+        if(p.seq==exp) {
+            printf("RECEIVER: Received packet %d\n", p.seq);
+            ak=p.seq; exp++;
+        } else {
+            printf("RECEIVER: Duplicate packet %d\n", exp-1);
+            ak=exp-1;
+        }
+        turn='s';
+        ea=rand()%4;
+        if(!ea) printf("Error While sending ACK\n");
+    }}
+int main() {
+    while(!dis) {
+        sender();
+        for(k=1;k<=10000000;k++);
+        receiver();
+    }}
